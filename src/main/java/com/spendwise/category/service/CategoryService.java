@@ -26,7 +26,7 @@ public class CategoryService {
     public CategoryResponse create(String e, CategoryRequest r) {
         var u = users.getByEmail(e);
         if (repo.existsByNameIgnoreCaseAndUserId(r.name(), u.getId()))
-            throw new BadRequestException("Category already");
+            throw new BadRequestException("Category already exists");
         Category c = new Category();
         c.setName(r.name());
         c.setUser(u);
