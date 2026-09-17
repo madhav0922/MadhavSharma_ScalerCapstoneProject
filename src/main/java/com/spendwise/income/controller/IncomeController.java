@@ -22,7 +22,7 @@ public class IncomeController {
     }
 
     @PostMapping
-    public IncomeResponse create(Authentication a, @Valid IncomeRequest r) {
+    public IncomeResponse create(Authentication a, @Valid @RequestBody IncomeRequest r) {
         return s.create(a.getName(), r);
     }
 
