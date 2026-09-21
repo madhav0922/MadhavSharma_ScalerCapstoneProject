@@ -1,0 +1,25 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: spendwise-postgres
+    environment:
+      POSTGRES_DB: spendwise
+      POSTGRES_USER: spendwise
+      POSTGRES_PASSWORD: spendwise
+    ports:
+      - "5432:5432"
+    volumes:
+      - spendwise_pgdata:/var/lib/postgresql/data
+  app:
+    build: .
+    depends_on:
+      - postgres
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/spendwise
+      DB_USERNAME: spendwise
+      DB_PASSWORD: spendwise
+      JWT_SECRET: 
+    ports:
+      - "8080:8080"
+volumes:
+  spendwise_pgdata:
