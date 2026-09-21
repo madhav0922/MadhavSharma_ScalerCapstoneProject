@@ -20,9 +20,10 @@ public class Expense {
     LocalDate expenseDate;
     @Column(nullable = false)
     String paymentMethod;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     Category category;
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     User user;
 
