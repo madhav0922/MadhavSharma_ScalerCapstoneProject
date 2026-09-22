@@ -9,8 +9,6 @@ import com.spendwise.category.service.CategoryService;
 import com.spendwise.expense.repository.ExpenseRepository;
 import com.spendwise.user.entity.User;
 import com.spendwise.user.service.UserService;
-
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -53,32 +51,6 @@ class SpendWiseApplicationTests {
     @InjectMocks
     private BudgetService budgetService;
 
-    @BeforeEach
-    void setUp() {
-
-        // Mock generated IDs instead of using setId()
-        when(user.getId()).thenReturn(1L);
-
-        when(category.getId()).thenReturn(1L);
-        when(category.getName()).thenReturn("Food");
-
-        when(budget.getId()).thenReturn(1L);
-        when(budget.getUser()).thenReturn(user);
-        when(budget.getCategory()).thenReturn(category);
-
-        when(budget.getAmount())
-                .thenReturn(new BigDecimal("5000"));
-
-        when(budget.getMonth())
-                .thenReturn(9);
-
-        when(budget.getYear())
-                .thenReturn(2026);
-
-        when(budget.getAlertThreshold())
-                .thenReturn(80);
-    }
-
     @Test
     void shouldCreateBudgetService() {
 
@@ -87,6 +59,21 @@ class SpendWiseApplicationTests {
 
     @Test
     void shouldReturnBudgetsForUser() {
+
+        // Arrange
+        when(user.getId()).thenReturn(1L);
+
+        when(category.getId()).thenReturn(1L);
+        when(category.getName()).thenReturn("Food");
+
+        when(budget.getUser()).thenReturn(user);
+        when(budget.getCategory()).thenReturn(category);
+        when(budget.getAmount())
+                .thenReturn(new BigDecimal("5000"));
+        when(budget.getMonth())
+                .thenReturn(9);
+        when(budget.getYear())
+                .thenReturn(2026);
 
         when(userService.getByEmail("test@example.com"))
                 .thenReturn(user);
@@ -106,11 +93,13 @@ class SpendWiseApplicationTests {
                         any(LocalDate.class)))
                 .thenReturn(new BigDecimal("2000"));
 
+        // Act
         List<BudgetResponse> result = budgetService.list(
                 "test@example.com",
                 9,
                 2026);
 
+        // Assert
         assertNotNull(result);
         assertEquals(1, result.size());
 
@@ -134,6 +123,24 @@ class SpendWiseApplicationTests {
     @Test
     void shouldCalculateBudgetUtilizationCorrectly() {
 
+        // Arrange
+        when(user.getId()).thenReturn(1L);
+
+        when(category.getId()).thenReturn(1L);
+        when(category.getName()).thenReturn("Food");
+
+        when(budget.getUser()).thenReturn(user);
+        when(budget.getCategory()).thenReturn(category);
+
+        when(budget.getAmount())
+                .thenReturn(new BigDecimal("5000"));
+
+        when(budget.getMonth())
+                .thenReturn(9);
+
+        when(budget.getYear())
+                .thenReturn(2026);
+
         when(userService.getByEmail("test@example.com"))
                 .thenReturn(user);
 
@@ -152,11 +159,13 @@ class SpendWiseApplicationTests {
                         any(LocalDate.class)))
                 .thenReturn(new BigDecimal("2000"));
 
+        // Act
         List<BudgetResponse> result = budgetService.list(
                 "test@example.com",
                 9,
                 2026);
 
+        // Assert
         assertEquals(1, result.size());
 
         BudgetResponse response = result.get(0);
@@ -185,6 +194,9 @@ class SpendWiseApplicationTests {
     @Test
     void shouldReturnEmptyListWhenNoBudgetsExist() {
 
+        // Arrange
+        when(user.getId()).thenReturn(1L);
+
         when(userService.getByEmail("test@example.com"))
                 .thenReturn(user);
 
@@ -195,11 +207,13 @@ class SpendWiseApplicationTests {
                         2026))
                 .thenReturn(List.of());
 
+        // Act
         List<BudgetResponse> result = budgetService.list(
                 "test@example.com",
                 9,
                 2026);
 
+        // Assert
         assertNotNull(result);
         assertTrue(result.isEmpty());
 
@@ -213,6 +227,24 @@ class SpendWiseApplicationTests {
 
     @Test
     void shouldCalculateHundredPercentUtilization() {
+
+        // Arrange
+        when(user.getId()).thenReturn(1L);
+
+        when(category.getId()).thenReturn(1L);
+        when(category.getName()).thenReturn("Food");
+
+        when(budget.getUser()).thenReturn(user);
+        when(budget.getCategory()).thenReturn(category);
+
+        when(budget.getAmount())
+                .thenReturn(new BigDecimal("5000"));
+
+        when(budget.getMonth())
+                .thenReturn(9);
+
+        when(budget.getYear())
+                .thenReturn(2026);
 
         when(userService.getByEmail("test@example.com"))
                 .thenReturn(user);
@@ -232,11 +264,13 @@ class SpendWiseApplicationTests {
                         any(LocalDate.class)))
                 .thenReturn(new BigDecimal("5000"));
 
+        // Act
         List<BudgetResponse> result = budgetService.list(
                 "test@example.com",
                 9,
                 2026);
 
+        // Assert
         BudgetResponse response = result.get(0);
 
         assertEquals(
@@ -250,6 +284,24 @@ class SpendWiseApplicationTests {
 
     @Test
     void shouldHandleZeroSpentAmount() {
+
+        // Arrange
+        when(user.getId()).thenReturn(1L);
+
+        when(category.getId()).thenReturn(1L);
+        when(category.getName()).thenReturn("Food");
+
+        when(budget.getUser()).thenReturn(user);
+        when(budget.getCategory()).thenReturn(category);
+
+        when(budget.getAmount())
+                .thenReturn(new BigDecimal("5000"));
+
+        when(budget.getMonth())
+                .thenReturn(9);
+
+        when(budget.getYear())
+                .thenReturn(2026);
 
         when(userService.getByEmail("test@example.com"))
                 .thenReturn(user);
@@ -269,11 +321,13 @@ class SpendWiseApplicationTests {
                         any(LocalDate.class)))
                 .thenReturn(BigDecimal.ZERO);
 
+        // Act
         List<BudgetResponse> result = budgetService.list(
                 "test@example.com",
                 9,
                 2026);
 
+        // Assert
         BudgetResponse response = result.get(0);
 
         assertEquals(
@@ -291,6 +345,23 @@ class SpendWiseApplicationTests {
 
     @Test
     void shouldVerifyCorrectDateRangeForSeptember() {
+
+        // Arrange
+        when(user.getId()).thenReturn(1L);
+
+        when(category.getId()).thenReturn(1L);
+
+        when(budget.getUser()).thenReturn(user);
+        when(budget.getCategory()).thenReturn(category);
+
+        when(budget.getAmount())
+                .thenReturn(new BigDecimal("5000"));
+
+        when(budget.getMonth())
+                .thenReturn(9);
+
+        when(budget.getYear())
+                .thenReturn(2026);
 
         when(userService.getByEmail("test@example.com"))
                 .thenReturn(user);
@@ -310,11 +381,13 @@ class SpendWiseApplicationTests {
                         any(LocalDate.class)))
                 .thenReturn(new BigDecimal("1000"));
 
+        // Act
         budgetService.list(
                 "test@example.com",
                 9,
                 2026);
 
+        // Assert
         verify(expenseRepository).categorySum(
                 eq(1L),
                 eq(1L),
@@ -324,6 +397,9 @@ class SpendWiseApplicationTests {
 
     @Test
     void shouldNotQueryExpensesWhenThereAreNoBudgets() {
+
+        // Arrange
+        when(user.getId()).thenReturn(1L);
 
         when(userService.getByEmail("test@example.com"))
                 .thenReturn(user);
@@ -335,11 +411,13 @@ class SpendWiseApplicationTests {
                         2026))
                 .thenReturn(List.of());
 
+        // Act
         budgetService.list(
                 "test@example.com",
                 9,
                 2026);
 
+        // Assert
         verify(expenseRepository, never())
                 .categorySum(
                         anyLong(),
