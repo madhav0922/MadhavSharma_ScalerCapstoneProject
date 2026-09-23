@@ -32,6 +32,7 @@ public class GoalService {
         g.setName(r.name());
         g.setTargetAmount(r.targetAmount());
         g.setCurrentAmount(BigDecimal.ZERO);
+        g.setTargetDate(r.targetDate());
         g.setUser(users.getByEmail(e));
         return GoalResponse.from(goals.save(g));
     }
