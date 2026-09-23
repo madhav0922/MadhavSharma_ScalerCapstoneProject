@@ -22,12 +22,12 @@ public class GoalController {
     }
 
     @PostMapping
-    public GoalResponse create(Authentication a, @Valid GoalRequest r) {
+    public GoalResponse create(Authentication a, @Valid @RequestBody GoalRequest r) {
         return s.create(a.getName(), r);
     }
 
     @PostMapping("/{id}/contributions")
-    public GoalResponse contribute(Authentication a, @PathVariable Long id, @RequestBody ContributionRequest r) {
+    public GoalResponse contribute(Authentication a, @PathVariable Long id, @Valid @RequestBody ContributionRequest r) {
         return s.contribute(a.getName(), id, r);
     }
 }
